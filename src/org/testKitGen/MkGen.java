@@ -94,21 +94,21 @@ public class MkGen {
 
 				f.write(testTargetName + ": TEST_GROUP=" + testInfo.getLevelStr() + "\n");
 				f.write(testTargetName + ":\n");
-				f.write(indent + "@echo \"\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+				f.write(indent + "@echo \"\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 				f.write(indent
-						+ "@echo \"===============================================\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
-				f.write(indent + "@echo \"Running test $@ ...\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+						+ "@echo \"===============================================\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
+				f.write(indent + "@echo \"Running test $@ ...\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 				f.write(indent
-						+ "@echo \"===============================================\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+						+ "@echo \"===============================================\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 				f.write(indent + "@perl '-MTime::HiRes=gettimeofday' -e 'print \"" + testTargetName
-						+ " Start Time: \" . localtime() . \" Epoch Time (ms): \" . int (gettimeofday * 1000) . \"\\n\"' | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+						+ " Start Time: \" . localtime() . \" Epoch Time (ms): \" . int (gettimeofday * 1000) . \"\\n\"' | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 
 				if (var.isDisabled()) {
 					// This line is also the key words to match runningDisabled
 					f.write(indent
-							+ "@echo \"Test is disabled due to:\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+							+ "@echo \"Test is disabled due to:\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 					for (String dReason : var.getDisabledReasons()) {
-						f.write(indent + "@echo \"- " + dReason + "\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+						f.write(indent + "@echo \"- " + dReason + "\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 					}
 				}
 
@@ -125,9 +125,9 @@ public class MkGen {
 					f.write(indent + "$(TEST_SETUP);\n");
 		
 					f.write(indent + "@echo \"variation: " + var.getVariation()
-							+ "\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+							+ "\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 					f.write(indent
-							+ "@echo \"JVM_OPTIONS: $(JVM_OPTIONS)\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+							+ "@echo \"JVM_OPTIONS: $(JVM_OPTIONS)\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 		
 					f.write(indent + "{ ");
 					for (int k = 1; k <= testInfo.getIterations(); k++) {
@@ -138,7 +138,7 @@ public class MkGen {
 							f.write(" \\\n" + indent);
 						}
 					}
-					f.write(" } 2>&1 | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+					f.write(" } 2>&1 | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 		
 					f.write(indent + "$(TEST_TEARDOWN);\n");
 		
@@ -148,7 +148,7 @@ public class MkGen {
 							f.write("else\n");
 							f.write(indent + "@echo \"Skipped due to capabilities (" + cKey + ":"
 									+ testInfo.getCapabilities().get(cKey)
-									+ ") => $(TEST_SKIP_STATUS)\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+									+ ") => $(TEST_SKIP_STATUS)\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 							f.write("endif\n");
 						}
 					}
@@ -157,15 +157,15 @@ public class MkGen {
 						f.write(indent
 								+ "@echo \"Skipped due to jvm options ($(JVM_OPTIONS)) and/or platform requirements ("
 								+ testInfo.getPlatformRequirements()
-								+ ") => $(TEST_SKIP_STATUS)\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+								+ ") => $(TEST_SKIP_STATUS)\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 					} else {
 						f.write(indent
-								+ "@echo \"Skipped due to jvm options ($(JVM_OPTIONS)) => $(TEST_SKIP_STATUS)\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+								+ "@echo \"Skipped due to jvm options ($(JVM_OPTIONS)) => $(TEST_SKIP_STATUS)\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 					}
 				}
 
 				f.write(indent + "@perl '-MTime::HiRes=gettimeofday' -e 'print \"" + testTargetName
-						+ " Finish Time: \" . localtime() . \" Epoch Time (ms): \" . int (gettimeofday * 1000) . \"\\n\"' | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q)\n");
+						+ " Finish Time: \" . localtime() . \" Epoch Time (ms): \" . int (gettimeofday * 1000) . \"\\n\"' | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q)\n");
 
 				f.write("\n.PHONY: " + testTargetName + "\n\n");
 
@@ -173,25 +173,25 @@ public class MkGen {
 				String printName = testTargetName;
 				testTargetName = "echo.disabled." + testTargetName;
 				f.write(testTargetName + ":\n");
-				f.write(indent + "@echo \"\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+				f.write(indent + "@echo \"\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 				f.write(indent
-						+ "@echo \"===============================================\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+						+ "@echo \"===============================================\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 				f.write(indent + "@echo \"Running test " + printName
-						+ " ...\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+						+ " ...\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 				f.write(indent
-						+ "@echo \"===============================================\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+						+ "@echo \"===============================================\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 				f.write(indent + "@perl '-MTime::HiRes=gettimeofday' -e 'print \"" + printName
-						+ " Start Time: \" . localtime() . \" Epoch Time (ms): \" . int (gettimeofday * 1000) . \"\\n\"' | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+						+ " Start Time: \" . localtime() . \" Epoch Time (ms): \" . int (gettimeofday * 1000) . \"\\n\"' | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 				f.write(indent + "@echo \"" + printName
-						+ "_DISABLED\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+						+ "_DISABLED\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 				f.write(indent + "@echo \"Disabled Reason:\"\n");
 
 				for (String dReason : var.getDisabledReasons()) {
-					f.write(indent + "@echo \"" + dReason + "\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q);\n");
+					f.write(indent + "@echo \"" + dReason + "\" | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q);\n");
 				}
 
 				f.write(indent + "@perl '-MTime::HiRes=gettimeofday' -e 'print \"" + printName
-						+ " Finish Time: \" . localtime() . \" Epoch Time (ms): \" . int (gettimeofday * 1000) . \"\\n\"' | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResult$(Q)\n");
+						+ " Finish Time: \" . localtime() . \" Epoch Time (ms): \" . int (gettimeofday * 1000) . \"\\n\"' | tee -a $(Q)$(TESTOUTPUT)$(D)TestTargetResultTEST$(Q)\n");
 				f.write("\n.PHONY: " + testTargetName + "\n\n");
 			}
 			testsInPlaylist.add(testTargetName);

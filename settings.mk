@@ -326,7 +326,7 @@ FAILEDTARGETS = $(TEST_ROOT)$(D)TKG$(D)failedtargets.mk
 #######################################
 # result Summary
 #######################################
-TEMPRESULTFILE=$(TESTOUTPUT)$(D)TestTargetResult
+TEMPRESULTFILE=$(TESTOUTPUT)$(D)TestTargetResultTEST
 TAPRESULTFILE=$(TESTOUTPUT)$(D)TestTargetResultTEST.tap
 PLATFROMFILE=$(TEST_ROOT)$(D)TKG$(D)resources$(D)buildPlatformMap.properties
 
