@@ -27,7 +27,7 @@ parallelList.mk
 *.log
 *.tap
 machineConfigure.mk
-tempTestTargetResultTEST
+tempTestTargetResult
 failedtargets.mk
 autoGenEnv.mk
 buildInfo.mk
